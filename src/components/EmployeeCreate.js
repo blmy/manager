@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Picker, Text } from 'react-native';
 import { connect } from 'react-redux';
 import { employeeUpdate, employeeCreate} from '../actions';
-import { Card, CardSection, Input, Button } from './common';
+import { Card, CardSection, Button } from './common';
+import EmployeeForm from './EmployeeForm';
 
 class EmployeeCreate extends Component {
   onButtonPress() {
@@ -15,40 +15,9 @@ class EmployeeCreate extends Component {
   render() {
     return (
       <Card>
-        <CardSection>
-          <Input
-            label="Name"
-            placeholder="Jane"
-            value={this.props.name}
-            onChangeText={value => this.props.employeeUpdate({ prop: 'name', value })}
-          />
-        </CardSection>
-
-        <CardSection>
-          <Input
-            label="Phone"
-            placeholder="91234567"
-            value={this.props.phone}
-            onChangeText={value => this.props.employeeUpdate({ prop: 'phone', value })}
-          />
-        </CardSection>
-
-        <CardSection style={{ flexDirection: 'column' }}>
-          <Text style={styles.pickerTextStyle}>Shift</Text>
-          <Picker
-            selectedValue={this.props.shift}
-            onValueChange={value => this.props.employeeUpdate({ prop: 'shift', value })}
-          >
-            <Picker.Item label="Monday" value="Monday" />
-            <Picker.Item label="Tuesday" value="Tuesday" />
-            <Picker.Item label="Wednesday" value="Wednesday" />
-            <Picker.Item label="Thursday" value="Thurday" />
-            <Picker.Item label="Friday" value="Friday" />
-            <Picker.Item label="Saturday" value="Saturday" />
-            <Picker.Item label="Sunday" value="Sunday" />
-          </Picker>
-        </CardSection>
-
+        {/*{...this.props}: Take all the diffrent props EmployeeCreate
+        has been passed and forward them to EmployeeForm as well.*/}
+        <EmployeeForm {...this.props} />
         <CardSection>
           <Button onPress={this.onButtonPress.bind(this)}>
             Create
@@ -59,21 +28,10 @@ class EmployeeCreate extends Component {
   }
 }
 
-const styles = {
-  pickerTextStyle: {
-    fontSize: 18,
-    paddingLeft: 20
-  }
-};
-
 const mapStateToProps = ({ employeeForm }) => {
   const { name, phone, shift } = employeeForm;
 
-  return {
-    name,
-    phone,
-    shift
-  };
+  return { name, phone, shift };
 };
 
 export default connect(mapStateToProps, {
