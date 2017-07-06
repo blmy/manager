@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { employeeUpdate, employeeCreate} from '../actions';
@@ -5,6 +6,19 @@ import { Card, CardSection, Button } from './common';
 import EmployeeForm from './EmployeeForm';
 
 class EmployeeCreate extends Component {
+  componentWillMount() {
+    //prefill the employee form with empty fill
+    const INITIAL_STATE = {
+      name: '',
+      phone: '',
+      shift: ''
+    };
+
+    _.each(INITIAL_STATE, (value, prop) => {
+      this.props.employeeUpdate({ prop, value });
+    });
+  }
+
   onButtonPress() {
     const { name, phone, shift } = this.props;
     //if the shift is not provided, the default value is "Monday"
